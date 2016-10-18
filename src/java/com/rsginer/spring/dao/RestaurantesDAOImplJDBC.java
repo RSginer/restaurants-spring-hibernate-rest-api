@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
@@ -26,13 +27,14 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
 
     private Connection con;
 
+    
     private Connection getConnection() {
         try {
             InitialContext initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
             DataSource dataSource = (DataSource) envCtx.lookup("jdbc/webapp");
             return dataSource.getConnection();
-        } catch (Exception ex) {
+        } catch (NamingException | SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -40,6 +42,7 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
     @Override
     public void insert(Restaurante restaurante) throws BussinessException {
         try {
+            this.con = this.getConnection();
             String sql = "INSERT INTO restaurantes VALUES(?,?,?,?,?,?)";
             PreparedStatement ps = this.con.prepareStatement(sql);
             ps.setInt(1, restaurante.getId());
@@ -69,6 +72,7 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
     @Override
     public Restaurante get(int idRestaurante) throws BussinessException {
         try {
+            this.con = this.getConnection();
             String sql = "SELECT * FROM restaurantes WHERE id = ?";
             PreparedStatement ps = this.con.prepareStatement(sql);
             ps.setInt(1, idRestaurante);
