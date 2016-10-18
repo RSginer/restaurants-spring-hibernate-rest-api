@@ -12,6 +12,8 @@ import com.rsginer.spring.model.Restaurante;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +38,34 @@ public class RestaurantesController {
 
     @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.GET,
                             produces = "application/json")
-    public void getRestaurantes(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws Exception {
-        List<Restaurante> listaRestaurantes = new ArrayList<>();
-        listaRestaurantes = restaurantesDAO.findAll();
-        String jsonListaRestaurantes = jsonTransformer.toJson(listaRestaurantes);
-        httpServletResponse.getWriter().println(jsonListaRestaurantes);
+    public void getRestaurantes(HttpServletRequest httpRequest, 
+                                HttpServletResponse httpServletResponse){
+        try {
+            List<Restaurante> listaRestaurantes = new ArrayList<>();
+            listaRestaurantes = restaurantesDAO.findAll();
+            String jsonSalida = jsonTransformer.toJson(listaRestaurantes);
+            httpServletResponse.getWriter().println(jsonSalida);
+        } catch (BussinessException ex) {
+            
+        } catch (Exception ex) {
+           
+        }
     }
     
     @RequestMapping(value = {"/restaurantes/{id}"}, method=RequestMethod.GET,
                             produces = "application/json")
     public void getRestauranteById(HttpServletRequest httpRequest,
                                    HttpServletResponse httpServletResponse,
-                @PathVariable("id") int idRestaurante) throws BussinessException, IOException{
+                                   @PathVariable("id") int idRestaurante){
+        try {
             Restaurante restaurante = restaurantesDAO.get(idRestaurante);
-            String jsonRestaurante = jsonTransformer.toJson(restaurante);
-            httpServletResponse.getWriter().println(jsonRestaurante);
+            String jsonSalida = jsonTransformer.toJson(restaurante);
+            httpServletResponse.getWriter().println(jsonSalida);
+        } catch (BussinessException ex) {
+          
+        } catch (Exception ex) {
+           
+        }
     }
     
     @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.POST, 
@@ -58,12 +73,20 @@ public class RestaurantesController {
                             produces = "application/json")
     public void setRestaurante(HttpServletRequest httpRequest,
                                HttpServletResponse httpServletResponse,
-                               @RequestBody String jsonEntrada) throws BussinessException, IOException{
-        Restaurante restaurante = jsonTransformer.fromJSON(jsonEntrada, Restaurante.class);
-        String jsonSalida = jsonTransformer.toJson(restaurante);
-        restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
-        httpServletResponse.getWriter().println(jsonSalida);
+                               @RequestBody String jsonEntrada){
+        try {
+            Restaurante restaurante = jsonTransformer.fromJSON(jsonEntrada, Restaurante.class);
+            String jsonSalida = jsonTransformer.toJson(restaurante);
+            restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
+            httpServletResponse.getWriter().println(jsonSalida);
+        } catch (BussinessException ex) {
+           
+        } catch (Exception ex) {
+           
+        }
     }
+    
+    
     
     
  
