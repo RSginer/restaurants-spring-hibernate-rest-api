@@ -56,9 +56,16 @@ public class RestaurantesController {
     @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.POST, 
                             consumes = "application/json",
                             produces = "application/json")
-    public void setRestaurante(@RequestBody String jsonEntrada) throws BussinessException{
-        restaurantesDAO.insert(jsonTransformer.fromJSON(jsonEntrada, Restaurante.class));
+    public void setRestaurante(HttpServletRequest httpRequest,
+                               HttpServletResponse httpServletResponse,
+                               @RequestBody String jsonEntrada) throws BussinessException, IOException{
+        Restaurante restaurante = jsonTransformer.fromJSON(jsonEntrada, Restaurante.class);
+        String jsonSalida = jsonTransformer.toJson(restaurante);
+        restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
+        httpServletResponse.getWriter().println(jsonSalida);
     }
+    
+    
  
 }
 
