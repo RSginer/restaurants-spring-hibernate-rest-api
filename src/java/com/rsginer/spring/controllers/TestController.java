@@ -5,9 +5,12 @@
  */
 package com.rsginer.spring.controllers;
 
+import com.rsginer.json.JsonTransformer;
+import com.rsginer.spring.model.Prueba;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,8 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class TestController {
-      @RequestMapping(value = {"/test"})
+    
+    @Autowired
+    JsonTransformer jsonTransformer;
+    
+    @RequestMapping(value = {"/test"})
     public void prueba(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws IOException {
-        httpServletResponse.getWriter().println("Hola Mundo");
+
+        Prueba p = new Prueba("prueba1",1); 
+        httpServletResponse.getWriter().println("Spring Framework REST API Funcionando OK \n " + jsonTransformer.toJson(p));
     }
 }
