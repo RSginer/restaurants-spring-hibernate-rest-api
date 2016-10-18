@@ -12,13 +12,12 @@ import com.rsginer.spring.model.Restaurante;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,7 +35,7 @@ public class RestaurantesController {
     private RestaurantesDAO restaurantesDAO;
 
     @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.GET,
-                            produces = "application/json; charset=UTF-8")
+                            produces = "application/json")
     public void getRestaurantes(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws Exception {
         List<Restaurante> listaRestaurantes = new ArrayList<>();
         listaRestaurantes = restaurantesDAO.findAll();
@@ -45,7 +44,7 @@ public class RestaurantesController {
     }
     
     @RequestMapping(value = {"/restaurantes/{id}"}, method=RequestMethod.GET,
-                            produces = "application/json; charset=UTF-8")
+                            produces = "application/json")
     public void getRestauranteById(HttpServletRequest httpRequest,
                                    HttpServletResponse httpServletResponse,
                 @PathVariable("id") int idRestaurante) throws BussinessException, IOException{
@@ -54,6 +53,12 @@ public class RestaurantesController {
             httpServletResponse.getWriter().println(jsonRestaurante);
     }
     
+    @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.POST, 
+                            consumes = "application/json",
+                            produces = "application/json")
+    public void setRestaurante(@RequestBody String jsonEntrada) throws BussinessException{
+        restaurantesDAO.insert(jsonTransformer.fromJSON(jsonEntrada, Restaurante.class));
+    }
  
 }
 
