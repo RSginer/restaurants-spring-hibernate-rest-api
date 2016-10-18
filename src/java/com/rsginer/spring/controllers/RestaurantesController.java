@@ -152,5 +152,19 @@ public class RestaurantesController {
             }
         }
     }
+    
+    @RequestMapping(value = {"/restaurantes/{id}"}, method = RequestMethod.PUT,
+            consumes = "application/json",
+            produces = "application/json")
+    public void updateRestaurante(HttpServletRequest httpRequest,
+            HttpServletResponse httpServletResponse,
+            @PathVariable("id") int idRestaurante,
+            @RequestBody String jsonEntrada){}
+    
+    @RequestMapping(value = {"/restaurantes/{id}"}, method = RequestMethod.DELETE,
+            produces = "application/json")
+    public void removeRestaurante(HttpServletRequest httpRequest,
+            HttpServletResponse httpServletResponse,
+            @PathVariable("id") int idRestaurante){}
 
 }
