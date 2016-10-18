@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,7 +67,29 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
 
     @Override
     public void update(int idRestaurante, Restaurante restaurante) throws BussinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          try {
+            this.con = this.getConnection();
+            String sql = "UPDATE restaurantes SET id = ?, nombre = ?, direccion = ?,"
+                    + "descripcion = ?, imagen = ?, precio = ? WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(sql);
+            ps.setInt(1, restaurante.getId());
+            ps.setString(2, restaurante.getNombre());
+            ps.setString(3, restaurante.getDireccion());
+            ps.setString(4, restaurante.getDescripcion());
+            ps.setString(5, restaurante.getImagen());
+            ps.setString(6, restaurante.getPrecio());
+            ps.setInt(7, idRestaurante);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                }
+            }
+        }
     }
 
     @Override
@@ -96,12 +119,46 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
 
     @Override
     public void delete(int idRestaurante) throws BussinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            this.con = this.getConnection();
+            String sql = "DELETE FROM restaurantes WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(sql);
+            ps.setInt(1, idRestaurante);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                }
+            }
+        }
     }
 
     @Override
     public List<Restaurante> findAll() throws BussinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            List<Restaurante> listaRestaurantes = new ArrayList<>();
+            this.con = this.getConnection();
+            String sql = "SELECT * FROM restaurantes";
+            PreparedStatement ps = this.con.prepareStatement(sql);
+            ResultSet res = ps.executeQuery();
+            while(res.next()){
+                listaRestaurantes.add(createRestaurante(res));
+            }
+            return listaRestaurantes;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                }
+            }
+        }
     }
 
     private Restaurante createRestaurante(ResultSet res) {
