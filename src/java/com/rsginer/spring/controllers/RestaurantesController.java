@@ -86,9 +86,18 @@ public class RestaurantesController {
         try {
             Restaurante restaurante = jsonTransformer.fromJSON(jsonEntrada, Restaurante.class);
             String jsonSalida = jsonTransformer.toJson(restaurante);
-            restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
+            if (restaurante != null && restaurante.getNombre() != null
+                                    && restaurante.getDireccion() != null
+                                    && restaurante.getDescripcion() != null
+                                    && restaurante.getPrecio() != null) {
+                   restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
+                   httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            }else{
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
+         
             httpServletResponse.getWriter().println(jsonSalida);
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+          
         } catch (BussinessException ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception ex) {
