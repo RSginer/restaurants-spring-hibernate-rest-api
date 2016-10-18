@@ -177,7 +177,7 @@ public class RestaurantesController {
             } catch (IOException ex1) {
                 Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
            httpServletResponse.setContentType("text/plain; charset=UTF-8");
             try {
