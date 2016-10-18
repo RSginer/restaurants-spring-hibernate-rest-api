@@ -8,11 +8,14 @@ package com.rsginer.spring.controllers;
 import com.rsginer.json.JsonTransformer;
 import com.rsginer.spring.dao.RestaurantesDAO;
 import com.rsginer.spring.model.Restaurante;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -27,16 +30,13 @@ public class RestaurantesController {
     @Autowired
     private RestaurantesDAO restaurantesDAO;
 
-    @RequestMapping(value = {"/restaurantes"})
-    public void prueba(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws Exception {
-        Restaurante restaurante = restaurantesDAO.get(1);
-        String jsonRestaurante = jsonTransformer.toJson(restaurante);
-        if (restaurante != null) {
-            httpServletResponse.getWriter().println(jsonRestaurante);
-        }else{
-            httpServletResponse.getWriter().println("el restaurante no se ha recogido con exito");
-        }
-        
+    @RequestMapping(value = {"/restaurantes"}, method=RequestMethod.GET,
+                            produces = "application/json; charset=UTF-8")
+    public void get(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws Exception {
+        List<Restaurante> listaRestaurantes = new ArrayList<>();
+        listaRestaurantes = restaurantesDAO.findAll();
+        String jsonListaRestaurantes = jsonTransformer.toJson(listaRestaurantes);
+        httpServletResponse.getWriter().println(jsonListaRestaurantes);
     }
  
 }
