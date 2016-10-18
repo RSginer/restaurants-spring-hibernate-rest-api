@@ -178,8 +178,8 @@ public class RestaurantesController {
                 Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         } catch (Exception ex) {
-           httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-           httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
             try {
                 ex.printStackTrace(httpServletResponse.getWriter());
             } catch (IOException ex1) {
@@ -193,7 +193,28 @@ public class RestaurantesController {
     public void removeRestaurante(HttpServletRequest httpRequest,
             HttpServletResponse httpServletResponse,
             @PathVariable("id") int idRestaurante) {
-
+        try {
+            restaurantesDAO.delete(idRestaurante);
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        } catch (BussinessException ex) {
+            List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (Exception ex) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
     }
 
 }
