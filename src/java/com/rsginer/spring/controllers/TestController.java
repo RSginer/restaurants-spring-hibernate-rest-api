@@ -28,6 +28,6 @@ public class TestController {
     public void prueba(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws IOException {
 
         Prueba p = new Prueba("prueba1",1); 
-        httpServletResponse.getWriter().println("Spring Framework REST API Funcionando OK \n " + jsonTransformer.toJson(p));
+        httpServletResponse.getWriter().println("Spring Framework REST API Funcionando OK \n \n Injeccion de dependencias JsonTransformer test: " + jsonTransformer.toJson(p));
     }
 }

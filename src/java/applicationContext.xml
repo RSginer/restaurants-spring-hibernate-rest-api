@@ -24,4 +24,5 @@
     <!-- Spring injectables -->
 
     <bean class="com.rsginer.json.JsonTransformerImplJackson"></bean>
+    <bean class="com.rsginer.spring.dao.RestaurantesDAOImplJDBC"></bean>
 </beans>
