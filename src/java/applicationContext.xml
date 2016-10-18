@@ -21,5 +21,6 @@
     p:password="${jdbc.password}" /-->
 
     <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
-
+    <!-- Spring injectables -->
+    <bean class="com.rsginer.json.JsonTransformerImplJackson"></bean>
 </beans>
