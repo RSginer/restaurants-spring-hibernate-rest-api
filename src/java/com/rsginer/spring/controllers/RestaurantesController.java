@@ -46,6 +46,7 @@ public class RestaurantesController {
             } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
 
         } catch (BussinessException ex) {
@@ -68,6 +69,7 @@ public class RestaurantesController {
             } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
 
         } catch (BussinessException ex) {
@@ -87,17 +89,17 @@ public class RestaurantesController {
             Restaurante restaurante = jsonTransformer.fromJSON(jsonEntrada, Restaurante.class);
             String jsonSalida = jsonTransformer.toJson(restaurante);
             if (restaurante != null && restaurante.getNombre() != null
-                                    && restaurante.getDireccion() != null
-                                    && restaurante.getDescripcion() != null
-                                    && restaurante.getPrecio() != null) {
-                   restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
-                   httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            }else{
+                    && restaurante.getDireccion() != null
+                    && restaurante.getDescripcion() != null
+                    && restaurante.getPrecio() != null) {
+                restaurantesDAO.insert(jsonTransformer.fromJSON(jsonSalida, Restaurante.class));
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
-         
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
-          
+
         } catch (BussinessException ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception ex) {
