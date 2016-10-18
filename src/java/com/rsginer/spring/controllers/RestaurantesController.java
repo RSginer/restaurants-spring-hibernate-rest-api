@@ -6,11 +6,15 @@
 package com.rsginer.spring.controllers;
 
 import com.rsginer.exceptions.BussinessException;
+import com.rsginer.exceptions.BussinessMessage;
 import com.rsginer.json.JsonTransformer;
 import com.rsginer.spring.dao.RestaurantesDAO;
 import com.rsginer.spring.model.Restaurante;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +54,23 @@ public class RestaurantesController {
             httpServletResponse.getWriter().println(jsonSalida);
 
         } catch (BussinessException ex) {
+            List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -73,9 +91,23 @@ public class RestaurantesController {
             httpServletResponse.getWriter().println(jsonSalida);
 
         } catch (BussinessException ex) {
+            List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -101,9 +133,23 @@ public class RestaurantesController {
             httpServletResponse.getWriter().println(jsonSalida);
 
         } catch (BussinessException ex) {
+            List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
