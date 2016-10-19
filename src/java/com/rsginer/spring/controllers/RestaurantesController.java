@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -251,5 +254,12 @@ public class RestaurantesController {
             }
         }
     }
-
+    
+@RequestMapping(value="/upload-file", method = RequestMethod.POST)
+    public @ResponseBody void UploadFile(@RequestParam(value="file", required=true) MultipartFile file) {
+        String fileName=file.getOriginalFilename();
+        System.out.println(fileName);
+    }
 }
+
+
