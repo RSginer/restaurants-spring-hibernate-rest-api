@@ -36,7 +36,7 @@ public class RestaurantesController {
 
     @Autowired
     private RestaurantesDAO restaurantesDAO;
-
+    
     @RequestMapping(value = {"/restaurantes"}, method = RequestMethod.GET,
             produces = "application/json")
     public void getRestaurantes(HttpServletRequest httpRequest,
