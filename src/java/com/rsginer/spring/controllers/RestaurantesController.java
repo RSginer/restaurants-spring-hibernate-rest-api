@@ -45,11 +45,7 @@ public class RestaurantesController {
             List<Restaurante> listaRestaurantes = new ArrayList<>();
             listaRestaurantes = restaurantesDAO.findAll();
             String jsonSalida = jsonTransformer.toJson(listaRestaurantes);
-            if (listaRestaurantes.size() <= 0) {
-                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            } else {
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            }
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
 
@@ -81,11 +77,7 @@ public class RestaurantesController {
         try {
             Restaurante restaurante = restaurantesDAO.getRandom();
             String jsonSalida = jsonTransformer.toJson(restaurante);
-            if (restaurante != null) {
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            }
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
         } catch (BussinessException ex) {
@@ -117,11 +109,7 @@ public class RestaurantesController {
         try {
             Restaurante restaurante = restaurantesDAO.get(idRestaurante);
             String jsonSalida = jsonTransformer.toJson(restaurante);
-            if (restaurante == null) {
-                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            } else {
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            }
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
 
