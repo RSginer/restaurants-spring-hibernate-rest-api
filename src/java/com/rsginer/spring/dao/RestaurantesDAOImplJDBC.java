@@ -160,24 +160,7 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
             }
         }
     }
-
-    private Restaurante createRestaurante(ResultSet res) {
-        try {
-            Restaurante restaurante = new Restaurante();
-            restaurante.setId(res.getInt("id"));
-            restaurante.setNombre(res.getString("nombre"));
-            restaurante.setDireccion(res.getString("direccion"));
-            restaurante.setDescripcion(res.getString("descripcion"));
-            restaurante.setImagen(res.getString("imagen"));
-            restaurante.setPrecio(res.getString("precio"));
-            return restaurante;
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
-    }
-
-    @Override
+   @Override
     public Restaurante getRandom() throws BussinessException {
           try {
             this.con = this.getConnection();
@@ -200,5 +183,23 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
             }
         }
     }
+    
+    private Restaurante createRestaurante(ResultSet res) {
+        try {
+            Restaurante restaurante = new Restaurante();
+            restaurante.setId(res.getInt("id"));
+            restaurante.setNombre(res.getString("nombre"));
+            restaurante.setDireccion(res.getString("direccion"));
+            restaurante.setDescripcion(res.getString("descripcion"));
+            restaurante.setImagen(res.getString("imagen"));
+            restaurante.setPrecio(res.getString("precio"));
+            return restaurante;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+ 
 
 }
