@@ -111,6 +111,42 @@ public class RestaurantesController {
         }
     }
 
+    @RequestMapping(value = {"/random-restaurante"}, method = RequestMethod.GET,
+            consumes = "aplication/json",
+            produces = "aplication/json")
+    public void getRestauranteRandom(HttpServletResponse httpServletResponse,
+            HttpServletRequest httpResquest) {
+        try {
+            Restaurante restaurante = restaurantesDAO.getRandom();
+            String jsonSalida = jsonTransformer.toJson(restaurante);
+            if (restaurante != null) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            }else{
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
+            httpServletResponse.setContentType("aplication/json; charset=UTF-8");
+            httpServletResponse.getWriter().println(jsonSalida);
+        } catch (BussinessException ex) {
+             List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (Exception ex) {
+           httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }
+
     @RequestMapping(value = {"/restaurantes"}, method = RequestMethod.POST,
             consumes = "application/json",
             produces = "application/json")

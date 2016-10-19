@@ -17,6 +17,7 @@ public interface RestaurantesDAO {
    public void insert(Restaurante restaurante) throws BussinessException;
    public void update(int idRestaurante,Restaurante restaurante) throws BussinessException;
    public Restaurante get(int idRestaurante) throws BussinessException;
+   public Restaurante getRandom() throws BussinessException;
    public void delete(int idRestaurante) throws BussinessException;
    public List<Restaurante> findAll() throws BussinessException;
 }

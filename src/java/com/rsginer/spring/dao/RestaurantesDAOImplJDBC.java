@@ -177,4 +177,28 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
 
     }
 
+    @Override
+    public Restaurante getRandom() throws BussinessException {
+          try {
+            this.con = this.getConnection();
+            String sql = "SELECT * FROM restaurantes ORDER BY RAND() LIMIT 1";
+            PreparedStatement ps = this.con.prepareStatement(sql);
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+                return createRestaurante(res);
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                }
+            }
+        }
+    }
+
 }
