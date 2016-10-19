@@ -188,7 +188,7 @@ public class RestaurantesController {
         }
     }
 
-    @RequestMapping(value = {"/restaurantes/{id}"}, method = RequestMethod.PUT,
+    @RequestMapping(value = {"/update-restaurante/{id}"}, method = RequestMethod.PUT,
             consumes = "application/json",
             produces = "application/json")
     public void updateRestaurante(HttpServletRequest httpRequest,
@@ -223,7 +223,7 @@ public class RestaurantesController {
         }
     }
 
-    @RequestMapping(value = {"/restaurantes/{id}"}, method = RequestMethod.DELETE,
+    @RequestMapping(value = {"/delete-restaurante/{id}"}, method = RequestMethod.DELETE,
             produces = "application/json")
     public void removeRestaurante(HttpServletRequest httpRequest,
             HttpServletResponse httpServletResponse,
