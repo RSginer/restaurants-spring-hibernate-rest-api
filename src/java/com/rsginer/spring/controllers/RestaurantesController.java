@@ -269,6 +269,8 @@ public class RestaurantesController {
                         Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+            }else{
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
         } catch (BussinessException ex) {
             List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
