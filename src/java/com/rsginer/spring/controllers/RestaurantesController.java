@@ -52,14 +52,13 @@ public class RestaurantesController {
             produces = "application/json")
     public void getRestaurantes(HttpServletRequest httpRequest,
             HttpServletResponse httpServletResponse) {
+        List<Restaurante> listaRestaurantes = new ArrayList<>();
         try {
-            List<Restaurante> listaRestaurantes = new ArrayList<>();
             listaRestaurantes = restaurantesDAO.findAll();
             String jsonSalida = jsonTransformer.toJson(listaRestaurantes);
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
-
         } catch (BussinessException ex) {
             List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
             String jsonSalida = jsonTransformer.toJson(bussinessMessages);
