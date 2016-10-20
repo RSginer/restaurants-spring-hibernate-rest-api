@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.NestedServletException;
 
 /**
  *
@@ -257,17 +258,17 @@ public class RestaurantesController {
             @RequestParam("file") MultipartFile file) {
         try {
             String jsonSalida = jsonTransformer.toJson(file.getOriginalFilename());
-            int res = fileSaveService.saveFile(file, httpServletRequest);
-            if (res == 200) {
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-                httpServletResponse.setContentType("application/json; charset=UTF-8");
-                try {
-                    httpServletResponse.getWriter().println(jsonSalida);
-                } catch (IOException ex) {
-                    Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+            if (!file.isEmpty()) {
+                int res = fileSaveService.saveFile(file, httpServletRequest);
+                if (res == 200) {
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                    httpServletResponse.setContentType("application/json; charset=UTF-8");
+                    try {
+                        httpServletResponse.getWriter().println(jsonSalida);
+                    } catch (IOException ex) {
+                        Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            } else if (res == 204) {
-                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
         } catch (BussinessException ex) {
             List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
@@ -289,6 +290,7 @@ public class RestaurantesController {
             }
 
         }
+
     }
 
 }
