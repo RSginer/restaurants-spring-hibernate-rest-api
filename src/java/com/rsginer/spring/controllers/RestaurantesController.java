@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -238,6 +240,25 @@ public class RestaurantesController {
                 Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
+    }
+    
+        @RequestMapping(value = {"/upload-file"}, method = RequestMethod.POST,
+                produces = "application/json")
+    public void uploadFile(HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            @RequestParam("file") MultipartFile file) {
+        
+        try {
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            httpServletResponse.getWriter().println(file.getOriginalFilename());
+        } catch (IOException ex) {
+            Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+           
+
+
     }
     
 }

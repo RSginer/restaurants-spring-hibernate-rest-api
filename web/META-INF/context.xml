@@ -9,7 +9,7 @@
     url="jdbc:mysql://localhost:3306/webapp"
     username="root"
     password=""
-    maxActive="100"
+    maxTotal="100"
     maxIdle="30"
     maxWait="10000"
     validationQuery="SELECT 1 FROM dual"
