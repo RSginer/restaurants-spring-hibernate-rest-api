@@ -7,11 +7,13 @@ package com.rsginer.spring.services;
 
 import com.rsginer.exceptions.BussinessException;
 import java.io.File;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author Rubén
  */
 public interface FileSaveService {
-    public String saveFile(byte[] file, String nombre) throws BussinessException;
+    public int saveFile(MultipartFile file,HttpServletRequest httpServletRequest) throws BussinessException;
 }

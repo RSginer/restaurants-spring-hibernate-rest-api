@@ -255,29 +255,39 @@ public class RestaurantesController {
     public void uploadFile(HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
             @RequestParam("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            try {
-                String rutaRelativa = "/uploads";
-                String rutaAbsoluta = httpServletRequest.getServletContext().getRealPath(rutaRelativa);
-                byte[] bytes = file.getBytes();
-                try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(rutaAbsoluta + "/" +file.getOriginalFilename())))) {
-                    stream.write(bytes);
-                }
-                httpServletResponse.getWriter().println("Has subido el archivo correctamente" + file.getOriginalFilename()
-                        + "  " + file.getOriginalFilename());
-            } catch (Exception e) {
+        try {
+            String jsonSalida = jsonTransformer.toJson(file.getOriginalFilename());
+            int res = fileSaveService.saveFile(file, httpServletRequest);
+            if (res == 200) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                httpServletResponse.setContentType("application/json; charset=UTF-8");
                 try {
-                    httpServletResponse.getWriter().println("Fallo al subir archivo " + file.getOriginalFilename() + " => " + e.getMessage());
+                    httpServletResponse.getWriter().println(jsonSalida);
                 } catch (IOException ex) {
                     Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (res == 204) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
-        } else {
+        } catch (BussinessException ex) {
+            List<BussinessMessage> bussinessMessages = ex.getBussinessMessages();
+            String jsonSalida = jsonTransformer.toJson(bussinessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
             try {
-                httpServletResponse.getWriter().println("Fallo al subir archivo " + file.getOriginalFilename() + " porque el archivo esta vacio");
-            } catch (IOException ex) {
-                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        } catch (Exception ex) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpServletResponse.setContentType("text/plain; charset=UTF-8");
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
         }
     }
 
