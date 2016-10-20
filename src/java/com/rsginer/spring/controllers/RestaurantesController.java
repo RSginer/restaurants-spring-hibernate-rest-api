@@ -10,6 +10,10 @@ import com.rsginer.exceptions.BussinessMessage;
 import com.rsginer.json.JsonTransformer;
 import com.rsginer.spring.dao.RestaurantesDAO;
 import com.rsginer.spring.model.Restaurante;
+import com.rsginer.spring.services.FileSaveService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,8 +42,11 @@ public class RestaurantesController {
     private JsonTransformer jsonTransformer;
 
     @Autowired
+    private FileSaveService fileSaveService;
+
+    @Autowired
     private RestaurantesDAO restaurantesDAO;
-    
+
     @RequestMapping(value = {"/restaurantes"}, method = RequestMethod.GET,
             produces = "application/json")
     public void getRestaurantes(HttpServletRequest httpRequest,
@@ -74,7 +82,7 @@ public class RestaurantesController {
 
     @RequestMapping(value = {"/random-restaurante"}, method = RequestMethod.GET,
             produces = "application/json")
-    public void getRestauranteRandom(HttpServletRequest httpResquest, 
+    public void getRestauranteRandom(HttpServletRequest httpResquest,
             HttpServletResponse httpServletResponse) {
         try {
             Restaurante restaurante = restaurantesDAO.getRandom();
@@ -241,26 +249,36 @@ public class RestaurantesController {
             }
         }
     }
-    
-        @RequestMapping(value = {"/upload-file"}, method = RequestMethod.POST,
-                produces = "application/json")
+
+    @RequestMapping(value = {"/upload-file"}, method = RequestMethod.POST,
+            produces = "application/json")
     public void uploadFile(HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
             @RequestParam("file") MultipartFile file) {
-        
-        try {
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            httpServletResponse.setContentType("application/json; charset=UTF-8");
-            httpServletResponse.getWriter().println(file.getOriginalFilename());
-        } catch (IOException ex) {
-            Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+        if (!file.isEmpty()) {
+            try {
+                String rutaRelativa = "/uploads";
+                String rutaAbsoluta = httpServletRequest.getServletContext().getRealPath(rutaRelativa);
+                byte[] bytes = file.getBytes();
+                try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(rutaAbsoluta + "/" +file.getOriginalFilename())))) {
+                    stream.write(bytes);
+                }
+                httpServletResponse.getWriter().println("Has subido el archivo correctamente" + file.getOriginalFilename()
+                        + "  " + file.getOriginalFilename());
+            } catch (Exception e) {
+                try {
+                    httpServletResponse.getWriter().println("Fallo al subir archivo " + file.getOriginalFilename() + " => " + e.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            try {
+                httpServletResponse.getWriter().println("Fallo al subir archivo " + file.getOriginalFilename() + " porque el archivo esta vacio");
+            } catch (IOException ex) {
+                Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-           
-           
-
-
     }
-    
+
 }
-
-
