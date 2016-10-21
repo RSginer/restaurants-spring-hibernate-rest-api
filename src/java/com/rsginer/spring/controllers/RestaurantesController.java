@@ -256,7 +256,9 @@ public class RestaurantesController {
             HttpServletResponse httpServletResponse,
             @RequestParam("file") MultipartFile file) {
         try {
-            String jsonSalida = jsonTransformer.toJson(file.getOriginalFilename());
+            String rutaRelativa = "/uploads";
+            String rutaAbsoluta = httpServletRequest.getServletContext().getVirtualServerName();
+            String jsonSalida = jsonTransformer.toJson("http://"+ rutaAbsoluta + ":"+ httpServletRequest.getLocalPort() + httpServletRequest.getContextPath() +"/uploads/"  + file.getOriginalFilename());
             if (!file.isEmpty()) {
                 int res = fileSaveService.saveFile(file, httpServletRequest);
                 if (res == 200) {
@@ -268,7 +270,7 @@ public class RestaurantesController {
                         Logger.getLogger(RestaurantesController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }else{
+            } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
         } catch (BussinessException ex) {
