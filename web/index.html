@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>API Restaurantes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            html{
+                background-color:#CCC;
+            }
+            body{
+                background-color: white;
+                font-family: Helvetica,Arial,serif;
+                width: 80%;
+                padding:10px 20px;
+                margin-left:auto;
+                margin-right:auto;
+            }
+            h1{
+                text-align: center;
+            }
+            code{
+                font-weight: bold;
+                font-size: 14px;
+                text-align: justify;
+                line-height: 0.5;
+                background-color: #DDD;
+                font-family: Currier,serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>Bienvenido mi api de restaurantes</h1>
+            <p>Este es un proyecto puramente academico en el que aprendo ha realizar una api con spring framework y a consumirla usando angular 2</p>
+            <p>Puedes ver la parte de angular aqui: <a href="https://github.com/RSginer/restaurants-crud-in-angular2">Enlace al proyecto de Github</a></p>
+            <h2>Base de datos MySQL</h2>
+               <code>
+                CREATE DATABASE IF NOT EXISTS `webapp`;<br>
+                USE `webapp`;<br>
+                <br>
+
+                CREATE TABLE IF NOT EXISTS `restaurantes` (<br>
+                `id` int(255) NOT NULL AUTO_INCREMENT,<br>
+                `nombre` varchar(255) DEFAULT NULL,<br>
+                `direccion` text,<br>
+                `descripcion` text,<br>
+                `imagen` varchar(255) DEFAULT NULL,<br>
+                `precio` varchar(255) DEFAULT NULL,<br>
+                PRIMARY KEY (`id`)<br>
+                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;<br>
+                <br>
+                DELETE FROM `restaurantes`;<br>
+                INSERT INTO `restaurantes` (`id`, `nombre`, `direccion`, `descripcion`, `imagen`, `precio`) VALUES<br>
+                (1, 'Hamburgueseria', 'Calle de la piruleta nº 2', 'Este es un restaurante que hacen hamburguesas', 'hamburgueseria.jpg', 'bajo'),<br>
+                (3, 'Bar manolo', 'Avenida de los naranjos', 'Bar familiar donde cenar con los niños', 'barmanolo.jpg', 'medio');<br>
+            </code>
+            <h2>API Rest, enlace para probar (Recuerda importar antes la base de datos)</h2>
+            <ul>
+                <li>
+                    <a href="api/restaurantes">Listado de restaurantes (/restaurantes)</a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
