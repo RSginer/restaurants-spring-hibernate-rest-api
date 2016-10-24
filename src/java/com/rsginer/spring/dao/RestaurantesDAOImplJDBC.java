@@ -142,7 +142,7 @@ public class RestaurantesDAOImplJDBC implements RestaurantesDAO {
          try {
             List<Restaurante> listaRestaurantes = new ArrayList<>();
             this.con = this.getConnection();
-            String sql = "SELECT * FROM restaurantes";
+            String sql = "SELECT * FROM restaurantes  ORDER BY id DESC";
             PreparedStatement ps = this.con.prepareStatement(sql);
             ResultSet res = ps.executeQuery();
             while(res.next()){
