@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/restaurants-angular2-spring-hibernate">
-    
-    <Resource
-    type="javax.sql.DataSource"
-    auth="Container"
-    name="jdbc/webapp"
-    driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/webapp"
-    username="root"
-    password=""
-    maxTotal="100"
-    maxIdle="30"
-    maxWait="10000"
-    validationQuery="SELECT 1 FROM dual"
- />
+<Context path="">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxIdle="30" maxTotal="100" maxWait="10000" name="jdbc/webapp" password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/webapp" username="root" validationQuery="SELECT 1 FROM dual"/>
 </Context>
