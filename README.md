@@ -1,4 +1,4 @@
-[![GitHub version](https://badge.fury.io/gh/rsginer%2Frestaurants-spring-hibernate-rest-api.svg)](https://badge.fury.io/gh/rsginer%2Frestaurants-spring-hibernate-rest-api)
+[![GitHub version](https://badge.fury.io/gh/rsginer%2Frestaurants-spring-hibernate-rest-api-ONLY-BACKEND.svg)](https://badge.fury.io/gh/rsginer%2Frestaurants-spring-hibernate-rest-api-ONLY-BACKEND)(https://badge.fury.io/gh/rsginer%2Frestaurants-spring-hibernate-rest-api)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/RSginer/rcalendarjs/blob/master/LICENSE.md)
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/RSginer/restaurants-spring-hibernate-rest-api/blob/master/LICENSE)
 # restaurants-spring-hibernate-rest-api
